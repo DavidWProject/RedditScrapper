@@ -1,1 +1,1 @@
-# reddit_scrapper
+# dailyNewsMongoScrapper
