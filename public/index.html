@@ -17,22 +17,25 @@
     }
 
     #wrapper {
-      width: 960px;
+      width: auto; 
       margin-left: auto;
       margin-right: auto;
       padding-top: 5%;
     }
 
     #articles {
-      display: inline-block;
       overflow: auto;
       padding: 20px; 
+      background: white; 
       height: 700px;
+      margin-left: 15px; 
     }
 
     #notes {
       float: right;
       padding: 20px; 
+      background: white; 
+      display: none; 
     }
 
     textarea,
@@ -166,6 +169,22 @@
   opacity: 0.5;
   font-weight: bolder;
 }
+
+.pageStyle1 {
+
+  padding: 20px; 
+  background: white; 
+  margin-left: 15px; 
+  margin-top: 20px; 
+  
+}
+
+.pageStyle2 {
+  padding: 20px;
+  background: white; 
+  margin-top: 20px; 
+}
+
     
   </style>
 </head>
@@ -195,10 +214,13 @@
       <div class="row">
 
         <div class="col-lg-8">
+          <h1 class="pageStyle1">Trending on Reddit</h1>
           <div id="articles"></div>
         </div>
 
         <div class="col-lg-4">
+          <h1 class="pageStyle2">Add your Notes</h1>
+          <p class="pageStyle2"> Just click on a post to add your notes</p>
           <div id="notes"></div>
         </div>
       </div>
