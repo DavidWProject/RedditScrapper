@@ -198,6 +198,20 @@ p:hover {
   border-radius: 20px; 
 }
 
+.page-buttons {
+  font-size: 16px; 
+  float: right; 
+  margin: auto; 
+  padding: 20px; 
+  border-radius: 10px; 
+}
+
+.delete {
+  float: right; 
+  border-radius: 20px; 
+  color: red; 
+}
+
     
   </style>
 </head>
@@ -227,7 +241,14 @@ p:hover {
       <div class="row">
 
         <div class="col-lg-8">
-          <h1 class="pageStyle1">Trending on Reddit</h1>
+
+          <h1 class="pageStyle1">Trending on Reddit
+
+              <button class="page-buttons refresh">Refresh Posts</button>
+              <button class="page-buttons clear-all">Delete All Posts</button>
+
+          </h1>
+
           <div id="articles"></div>
         </div>
 
