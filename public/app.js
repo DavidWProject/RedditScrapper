@@ -106,7 +106,6 @@ $(".clear-all").on("click", function () {
     url: "/clearall",
     // On a successful call, clear the #results section
     success: function (response) {
-      $("#results").empty();
       location.reload(); 
     }
   });
@@ -114,4 +113,17 @@ $(".clear-all").on("click", function () {
 
 $(document).on("click", ".refresh", function () {
 
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "/clearall",
+    // On a successful call, clear the #results section
+    success: function (response) {
+  
+      window.location.href = "/scrape";
+      setTimeout(function(){ 
+        window.location.href = "/"; 
+      }, 500);
+    }
+  });
 })
