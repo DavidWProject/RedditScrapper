@@ -1,9 +1,11 @@
+var search = $("#customSearch");
+
 // Grab the articles as a json
 $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    if (data[i].link.substring(0,3) === "/r/") {
+    if (data[i].link.substring(0, 3) === "/r/") {
       $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href=https://old.reddit.com" + data[i].link + " target=_blank>https://old.reddit.com" + data[i].link + "<button class=delete>X</button></p>");
     } else {
       $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href=" + data[i].link + " target=_blank>" + data[i].link + "</a><button class=delete>X</button></p>");
@@ -106,7 +108,7 @@ $(".clear-all").on("click", function () {
     url: "/clearall",
     // On a successful call, clear the #results section
     success: function (response) {
-      location.reload(); 
+      location.reload();
     }
   });
 });
@@ -119,11 +121,72 @@ $(document).on("click", ".refresh", function () {
     url: "/clearall",
     // On a successful call, clear the #results section
     success: function (response) {
-  
+
       window.location.href = "/scrape";
-      setTimeout(function(){ 
-        window.location.href = "/"; 
+      setTimeout(function () {
+        window.location.href = "/";
       }, 500);
     }
   });
+})
+
+search.on("keydown", function (e) {
+
+  var searchVal = search.val();
+
+  if (e.keyCode === 13) {
+
+    $(".pageStyle1").html(
+      '' + searchVal + '<button class="page-buttons refresh">Refresh Posts</button><button class="page-buttons clear-all">Delete All Posts</button>'
+    );
+    $(".pageStyle1").val(searchVal);
+
+    // $.ajax({
+    //   type: "GET",
+    //   dataType: "json",
+    //   url: "/clearall",
+    //   // On a successful call, clear the #results section
+    //   success: function (response) {
+
+    //     var scrapeSite = "https://old.reddit.com/r/" + searchVal + "/";
+
+    //     axios.get(scrapeSite).then(function (response) {
+    //         // Then, we load that into cheerio and save it to $ for a shorthand selector
+    //         var $ = cheerio.load(response.data);
+
+    //         // Now, we grab every h2 within an article tag, and do the following:
+    //         $("p.title").each(function (i, element) {
+    //           // Save an empty result object
+    //           var result = {};
+
+    //           // Add the text and href of every link, and save them as properties of the result object
+    //           result.title = $(element)
+    //             .text();
+    //           result.link = $(element)
+    //             .children()
+    //             .attr("href");
+
+    //           // Create a new Article using the `result` object built from scraping
+    //           db.Article.create(result)
+    //             .then(function (dbArticle) {
+    //               // View the added result in the console
+    //               console.log(dbArticle);
+    //             })
+    //             .catch(function (err) {
+    //               // If an error occurred, send it to the client
+    //               return res.json(err);
+    //             });
+    //         });
+    //         setTimeout(function () {
+    //           window.location.href = "/";
+    //         }, 500);
+  
+    //     });
+
+    //   }
+
+    // });
+
+  }
+
 })
