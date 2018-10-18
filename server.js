@@ -56,7 +56,9 @@ app.get("/scrape", function (req, res) {
       result.link = $(element)
         .children()
         .attr("href");
-
+      result.time = $(element)
+        .parent().find(".live-timestamp").text(); 
+      
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function (dbArticle) {

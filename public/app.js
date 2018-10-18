@@ -6,9 +6,9 @@ $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     if (data[i].link.substring(0, 3) === "/r/") {
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href=https://old.reddit.com" + data[i].link + " target=_blank>https://old.reddit.com" + data[i].link + "</a><button class=delete>X</button></p>");
+      $("#articles").append("<div><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=https://old.reddit.com" + data[i].link + " target=_blank>https://old.reddit.com" + data[i].link + "</a><button class=delete>X</button></p></div>");
     } else {
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href=" + data[i].link + " target=_blank>" + data[i].link + "</a><button class=delete>X</button></p>");
+      $("#articles").append("<div><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=" + data[i].link + " target=_blank>" + data[i].link + "</a><button class=delete>X</button></p></div>");
 
     }
   }
@@ -131,6 +131,11 @@ $(document).on("click", ".refresh", function () {
     }
   });
 })
+
+// if (window.location.href = "/scrape") {
+//   window.location.href = "/"
+
+// }; 
 
 search.on("keydown", function (e) {
 
