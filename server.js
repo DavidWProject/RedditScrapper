@@ -153,7 +153,7 @@ app.get("/clearall", function (req, res) {
 // Delete One from the DB
 app.get("/delete/:id", function (req, res) {
   // Remove a note using the objectID
-  db.notes.remove({
+  db.Article.remove({
       _id: mongojs.ObjectID(req.params.id)
     },
     function (error, removed) {
@@ -161,6 +161,7 @@ app.get("/delete/:id", function (req, res) {
       if (error) {
         console.log(error);
         res.send(error);
+        console.log("oh no"); 
       } else {
         // Otherwise, send the mongojs response to the browser
         // This will fire off the success function of the ajax request
