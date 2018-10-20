@@ -36,15 +36,21 @@ mongoose.connect(MONGODB_URI, {
 });
 
 // Routes
-var scrapeSite = "https://old.reddit.com/";
+
 
 // // A GET route for scraping the echoJS website
-app.get("/scrape", function (req, res) {
+app.get("/scrape/:sr?", function (req, res) {
   // First, we grab the body of the html with axios
+  console.log("GET SCRAPE")
+  var scrapeSite = "https://old.reddit.com/";
+  var scrapeSubreddit = "https://old.reddit.com/r";
+  var sr = req.params.sr;
+  scrapeSite = sr ? `${scrapeSubreddit}/${sr}` : scrapeSite;
+  console.log(scrapeSite);
   axios.get(scrapeSite).then(function (response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-
+    var arrayToSave = [];
     // Now, we grab every h2 within an article tag, and do the following:
     $("p.title").each(function (i, element) {
       // Save an empty result object
@@ -60,19 +66,23 @@ app.get("/scrape", function (req, res) {
         .parent().find(".live-timestamp").text(); 
       
       // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function (dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-        })
-        .catch(function (err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        });
+     arrayToSave.push(result);
     });
 
+
+    db.Article.insertMany(arrayToSave)
+    .then(function (data) {
+      // View the added result in the console
+      res.json(data);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      console.log("ERR: ",err)
+      return res.json(err);
+    });
+
+
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape Complete");
   });
 
 });
