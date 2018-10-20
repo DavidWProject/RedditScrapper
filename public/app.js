@@ -143,57 +143,127 @@ search.on("keydown", function (e) {
 
   if (e.keyCode === 13) {
 
+    //Clear all Wrapper
+    $("#articles").empty();
     $(".pageStyle1").html(
       '' + searchVal + '<button class="page-buttons refresh">Refresh Posts</button><button class="page-buttons clear-all">Delete All Posts</button>'
     );
     $(".pageStyle1").val(searchVal);
 
-    // $.ajax({
-    //   type: "GET",
-    //   dataType: "json",
-    //   url: "/clearall",
-    //   // On a successful call, clear the #results section
-    //   success: function (response) {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "/clearall",
+      // On a successful call, clear the #results section
+      success: function (response) {
 
-    //     var scrapeSite = "https://old.reddit.com/r/" + searchVal + "/";
+        var scrapeSite = "https://old.reddit.com/r/" + searchVal + "/";
 
-    //     axios.get(scrapeSite).then(function (response) {
-    //         // Then, we load that into cheerio and save it to $ for a shorthand selector
-    //         var $ = cheerio.load(response.data);
+        axios.get(scrapeSite).then(function (response) {
+            // Then, we load that into cheerio and save it to $ for a shorthand selector
+            var $ = cheerio.load(response.data);
 
-    //         // Now, we grab every h2 within an article tag, and do the following:
-    //         $("p.title").each(function (i, element) {
-    //           // Save an empty result object
-    //           var result = {};
+            // Now, we grab every h2 within an article tag, and do the following:
+            $("p.title").each(function (i, element) {
+              // Save an empty result object
+              var result = {};
 
-    //           // Add the text and href of every link, and save them as properties of the result object
-    //           result.title = $(element)
-    //             .text();
-    //           result.link = $(element)
-    //             .children()
-    //             .attr("href");
+              // Add the text and href of every link, and save them as properties of the result object
+              result.title = $(element)
+                .text();
+              result.link = $(element)
+                .children()
+                .attr("href");
 
-    //           // Create a new Article using the `result` object built from scraping
-    //           db.Article.create(result)
-    //             .then(function (dbArticle) {
-    //               // View the added result in the console
-    //               console.log(dbArticle);
-    //             })
-    //             .catch(function (err) {
-    //               // If an error occurred, send it to the client
-    //               return res.json(err);
-    //             });
-    //         });
-    //         setTimeout(function () {
-    //           window.location.href = "/";
-    //         }, 500);
+              // Create a new Article using the `result` object built from scraping
+              db.Article.create(result)
+                .then(function (dbArticle) {
+                  // View the added result in the console
+                  console.log(dbArticle);
+                })
+                .catch(function (err) {
+                  // If an error occurred, send it to the client
+                  return res.json(err);
+                });
+            });
+            setTimeout(function () {
+              location.reload(); 
+            }, 500);
   
-    //     });
+        });
 
-    //   }
+      }
 
-    // });
+    });
 
   }
 
 })
+
+// search.on("keydown", function (e) {
+
+//   var searchVal = search.val();
+
+//   if (e.keyCode === 13) {
+
+//     //Clear all Wrapper
+//     $("#articles").empty();
+
+//     $(".pageStyle1").html(
+//       '' + searchVal + '<button class="page-buttons refresh">Refresh Posts</button><button class="page-buttons clear-all">Delete All Posts</button>'
+//     );
+//     $(".pageStyle1").val(searchVal);
+
+//     $.ajax({
+//       type: "GET",
+//       dataType: "json",
+//       url: "/clearall",
+//       // On a successful call, clear the #results section
+//       success: function (response) {
+
+//         var scrapeSite = "https://old.reddit.com/r/" + searchVal + "/";
+
+//         axios.get(scrapeSite).then(function (response) {
+//             // Then, we load that into cheerio and save it to $ for a shorthand selector
+//             var $ = cheerio.load(response.data);
+
+//             // Now, we grab every h2 within an article tag, and do the following:
+//             $("p.title").each(function (i, element) {
+//               // Save an empty result object
+//               var {title, link} = element
+              
+//               var result = {
+//                 title,
+//                 link
+//               };
+
+//               console.log("result",result);
+
+//               // Add the text and href of every link, and save them as properties of the result object
+//               $(element).text(result.title);
+//               $(element).children().attr("href") = result.link;
+
+//               // Create a new Article using the `result` object built from scraping
+//               db.Article.create(result)
+//                 .then(function (dbArticle) {
+//                   // View the added result in the console
+//                   console.log(dbArticle);
+//                 })
+//                 .catch(function (err) {
+//                   // If an error occurred, send it to the client
+//                   return res.json(err);
+//                 });
+//             });
+//             setTimeout(function () {
+//               window.location.href = "/";
+//             }, 500);
+  
+//         });
+
+//       }
+
+//     });
+
+//   }
+
+// })
