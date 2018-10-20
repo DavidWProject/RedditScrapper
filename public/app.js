@@ -6,9 +6,9 @@ $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     if (data[i].link.substring(0, 3) === "/r/") {
-      $("#articles").append("<div><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=https://old.reddit.com" + data[i].link + " target=_blank>https://old.reddit.com" + data[i].link + "</a><button class=delete>X</button></p></div>");
+      $("#articles").append("<div class='articles'><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=https://old.reddit.com" + data[i].link + " target=_blank>https://old.reddit.com" + data[i].link + "</a><button class=delete>X</button></p></div>");
     } else {
-      $("#articles").append("<div><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=" + data[i].link + " target=_blank>" + data[i].link + "</a><button class=delete>X</button></p></div>");
+      $("#articles").append("<div class='articles'><p data-id='" + data[i]._id + "'><h3>" + data[i].title + "</h3><br /><span>Posted " + data[i].time + "</span><br /><a href=" + data[i].link + " target=_blank>" + data[i].link + "</a><button class=delete>X</button></p></div>");
 
     }
   }
@@ -16,12 +16,12 @@ $.getJSON("/articles", function (data) {
 
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function () {
+$(document).on("click", ".articles", function () {
   // Empty the notes from the note section
   $("#notes").fadeIn();
   $("#notes").empty();
   // Save the id from the p tag
-  var thisId = $(this).attr("data-id");
+  var thisId = $(this).children().attr("data-id");
 
   // Now make an ajax call for the Article
   $.ajax({
